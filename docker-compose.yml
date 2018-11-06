@@ -39,6 +39,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   elasticsearch:
     driver: ${VOLUMES_DRIVER}
+  dynamodb:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -1266,3 +1268,17 @@ services:
         backend:
           aliases:
             - fetchmail
+
+### Dynamodb ##################################################
+    dynamodb:
+      build:
+        context: ./dynamodb
+      environment:
+        - "JAVA_OPTS=-Xmx256m"
+      volumes:
+        - ${DATA_PATH_HOST}/dynamodb:/dynamodb_local_db
+      ports:
+        - "8000:8000"
+      networks:
+        - frontend
+        - backend
